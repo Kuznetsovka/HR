@@ -4,5 +4,5 @@ public abstract class Shape {
     public int width;
     public int height;
 
-    public abstract double Area() ;
+    public abstract double area() ;
 }
