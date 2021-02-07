@@ -2,32 +2,32 @@ package org.example.lesson3;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class MyLock implements Runnable {
-    private final AtomicInteger count;
+    private int count = 0;
+    private int maxCount = 10;
     private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private final Lock writeLock = readWriteLock.writeLock();
     private final Lock readLock = readWriteLock.readLock();
 
-    public AtomicInteger getCount() {
-        return count;
+    public MyLock(int count,int maxCount) {
+        this.count = count;
+        this.maxCount = maxCount;
     }
 
-    public MyLock(AtomicInteger count) {
-        this.count = count;
+    public MyLock() {
     }
 
     public void incrementAndPrint() {
-        writeLock.lock();
-        readLock.lock();
-        try {
-            System.out.println(count.incrementAndGet());
-        } finally {
-            writeLock.unlock();
-            readLock.unlock();
+        while (count<maxCount) {
+            writeLock.lock();
+            try {
+                System.out.println(++count);
+            } finally {
+                writeLock.unlock();
+            }
         }
     }
 
@@ -37,10 +37,10 @@ public class MyLock implements Runnable {
         }
 
     public static void main(String[] args) {
-        ExecutorService service = Executors.newFixedThreadPool(4);
-        AtomicInteger count = new AtomicInteger(0);
-        MyLock mylock = new MyLock(count);
-        while (mylock.getCount().get()<10) {
+        int countThread = 4;
+        ExecutorService service = Executors.newFixedThreadPool(countThread);
+        MyLock mylock = new MyLock();
+        for (int i = 0; i < countThread; i++) {
             service.execute(mylock);
         }
         service.shutdown();
