@@ -1,0 +1,34 @@
+server:
+  port: ${PORT:8090}
+  hostname: localhost
+spring:
+  application:
+    name: test-app
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  datasource:
+     name: 'db_students'
+     url: jdbc:${DATABASE_PATH:mysql://localhost:3306/db_students?serverTimezone=UTC}
+     username: ${DATABASE_USER:root}
+     password: ${DATABASE_PASSWORD:Nbirf}
+
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:${DATABASE_PATH:postgresql://localhost:5432/db_students}
+#    username: ${DATABASE_USER:postgres}
+#    password: ${DATABASE_PASSWORD:123456}
+#    driver-class-name: org.postgresql.Driver
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+#    org.springframework.ws: DEBUG
+
+
+
+
+
+
+
+
