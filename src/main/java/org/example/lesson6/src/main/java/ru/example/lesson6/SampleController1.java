@@ -26,6 +26,14 @@ public class SampleController1 {
         return company;
     }
 
+    @GetMapping(value = "/company", params = {"param1", "param2","param3"})
+    @ResponseBody
+    public Company postCompanyFromString(@RequestParam String param1,
+                                         @RequestParam String param2,
+                                         @RequestParam String param3){
+        return new Company(Long.parseLong(param1),param2,"123456",param3,111L);
+    }
+
 
     // http://localhost:8090/value?param1=param1&param2=param2
     @GetMapping(value = "/value", params = {"param1", "param2"})

@@ -116,6 +116,7 @@ public class SimpleHttpClient {
         sendRequest("http://localhost/", "hello",8090,"POST",false);
         sendRequest("http://localhost/", "value",8090,"GET",false,"Hello","World");
         sendRequest("http://localhost/", "",8090,"POST",true);
+        sendRequest("http://localhost/", "company",8090,"GET",true,"1","Geekbrains","my@mail.ru");
     }
 
 }
