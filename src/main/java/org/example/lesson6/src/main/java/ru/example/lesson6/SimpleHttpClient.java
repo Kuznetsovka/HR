@@ -6,6 +6,8 @@ import java.net.Socket;
 
 public class SimpleHttpClient {
     public static final String UTF_8 = "charset=UTF-8";
+    public static final String POST = "POST";
+    public static final String GET = "GET";
     public enum ContentType {
         TEXT("text/plain;"), JSON_ACCEPT("application/json, */*; q=0.01"),JSON_TYPE("application/json;");
         private final String txt;
@@ -82,41 +84,54 @@ public class SimpleHttpClient {
             //METHOD
             out.append(method).append(" /").append(subUrl);
             //PARAM
-            parametrization(out, param);
+            if (method.equals(GET))
+                out.append(parametrization(out, param));
             out.append(" HTTP/1.0").append(caret);
-            out.append("Host: ").append(hostName).append(":").append(port).append(caret);
-            //HEADER
-            out.append("Accept: ").append(acceptType).append(caret);
-            out.append("Connection: ").append("close").append(caret);
-            out.append("Content-Type: ").append(contentType).append(caret);
+            appendHeaders(port, method, caret, hostName, acceptType, contentType, out, param);
             out.append(caret);
             //BODY
-            if (json)
-                out.append(new Company(1L, "Geekbrains", "123456", "my@email.ru", 111L).toString());
+            if (param.length>0 && method.equals(POST))
+                out.append(param[0]);
+            out.append(caret);
             socket.getOutputStream().write(out.toString().getBytes("UTF-8"));
             socket.getOutputStream().flush();
             new Response(socket.getInputStream(),true);
         }
     }
 
-    private static void parametrization(StringBuilder out, String[] param) {
+    private static void appendHeaders(int port, String method, String caret, String hostName, String acceptType, String contentType, StringBuilder out, String[] param) {
+        //HEADERS
+        out.append("Host: ").append(hostName).append(":").append(port).append(caret);
+        out.append("Accept: ").append(acceptType).append(caret);
+        out.append("Connection: ").append("close").append(caret);
+        out.append("Content-Type: ").append(contentType).append(caret);
+        //LENGTH BODY
+        if (param.length>0 && method.equals(POST))
+            out.append("Content-Length: ").append(param[0].length()).append(caret);
+    }
+
+    private static StringBuilder parametrization(StringBuilder out, String[] param) {
+        StringBuilder sb = new StringBuilder();
         if (param.length>0) {
-            out.append("?");
+            sb.append("?");
             int count=0;
             while(param.length!=count++){
-                out.append("param").append(count).append("=").append(param[count-1]);
+                sb.append("param").append(count).append("=").append(param[count-1]);
                 if(param.length!=count)
-                    out.append("&");
+                    sb.append("&");
             }
         }
+        return sb;
     }
 
     public static void main(String[] args) throws Exception {
-        sendRequest("http://localhost/", "hello",8090,"GET", false);
-        sendRequest("http://localhost/", "hello",8090,"POST",false);
-        sendRequest("http://localhost/", "value",8090,"GET",false,"Hello","World");
-        sendRequest("http://localhost/", "",8090,"POST",true);
-        sendRequest("http://localhost/", "company",8090,"GET",true,"1","Geekbrains","my@mail.ru");
+        sendRequest("http://localhost/", "hello",8090,GET, false);
+        sendRequest("http://localhost/", "hello",8090,POST,false);
+        sendRequest("http://localhost/", "value",8090,GET,false,"Hello","World");
+        sendRequest("http://localhost/", "value",8090,POST,false,"Hello World!");
+        String json=new Company(1L, "Geekbrains", "123456", "my@email.ru", 111L).toString();
+        sendRequest("http://localhost/", "",8090,POST,true,json);
+        sendRequest("http://localhost/", "company",8090,GET,true,"1","Geekbrains","my@mail.ru");
     }
 
 }

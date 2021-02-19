@@ -22,7 +22,7 @@ public class SampleController1 {
 
     @PostMapping(produces ="application/json")
     @ResponseBody
-    public Company postCompany(@ModelAttribute Company company){
+    public Company postCompany(@RequestBody Company company){
         return company;
     }
 
@@ -40,6 +40,12 @@ public class SampleController1 {
     public String getParam(@RequestParam String param1,
                            @RequestParam String param2){
         return "GET param1=" + param1 + " param2=" + param2;
+    }
+
+    // http://localhost:8090/value
+    @PostMapping(value = "/value")
+    public String postParam(@RequestBody String param1){
+        return "POST param1=" + param1;
     }
 
 }
