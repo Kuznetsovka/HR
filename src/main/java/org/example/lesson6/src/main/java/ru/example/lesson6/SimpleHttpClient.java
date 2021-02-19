@@ -93,6 +93,7 @@ public class SimpleHttpClient {
             if (param.length>0 && method.equals(POST))
                 out.append(param[0]);
             out.append(caret);
+            //System.out.println(out);
             socket.getOutputStream().write(out.toString().getBytes("UTF-8"));
             socket.getOutputStream().flush();
             new Response(socket.getInputStream(),true);

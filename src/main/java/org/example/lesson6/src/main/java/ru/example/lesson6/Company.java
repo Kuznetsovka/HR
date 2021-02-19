@@ -12,7 +12,7 @@ public class Company {
     private String name;
     private String password;
     private String email;
-    private Long INN;
+    private Long inn;
 
     @Override
     public String toString() {
@@ -22,7 +22,7 @@ public class Company {
                     "\"name\":\"" + name + "\"," +
                     "\"password\":\"" + password + "\"," +
                     "\"email\":\"" + email + "\"," +
-                    "\"INN\":\"" + INN +
+                    "\"inn\":\"" + inn +
                 "\"}";
     }
 }
