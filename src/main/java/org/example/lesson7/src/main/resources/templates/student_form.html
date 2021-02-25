@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
-    <title>EShop application</title>
+    <title>Student form</title>
 </head>
 
 <body>
@@ -33,7 +33,7 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <span th:if="${student == 0}">Product is null</span>
+            <span th:if="${student == 0}">Student is null</span>
             <form th:action="@{/students/update}" method="post">
                 <input type="hidden" id="id" name="id" th:value="${student.id}">
                 <div class="form-group">
