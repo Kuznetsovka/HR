@@ -1,0 +1,36 @@
+server:
+  port: ${PORT:8091}
+  hostname: localhost
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+#    url: jdbc:h2:file:~/test
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:${DATABASE_PATH:postgresql://localhost:5432/db_students}
+#    username: ${DATABASE_USER:postgres}
+#    password: ${DATABASE_PASSWORD:123456}
+#    driver-class-name: org.postgresql.Driver
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+#    org.springframework.ws: DEBUG
+
+
+
+
+
+
+
+
